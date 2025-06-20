@@ -33,4 +33,4 @@ app.get('/owner-dashboard.html',  guard('owner'),
 app.get('/walker-dashboard.html', guard('walker'),
   (req,res)=>res.sendFile(path.join(__dirname,'public/walker-dashboard.html')));
 
-module.exports = app;   // bin/www 会调用
+module.exports = app;   //
