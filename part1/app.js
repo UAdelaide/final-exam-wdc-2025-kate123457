@@ -46,7 +46,7 @@ let db;
     const dml = fs.readFileSync(path.join(__dirname, 'insert_data.sql'), 'utf8');
     await db.query(dml);
 
-    console.log('✅ Database ready');
+    console.log(' Database ready');
   } catch (err) {
     console.error(
       ' Failed to initialize database. Is MySQL running? (service mysql start)',
@@ -55,7 +55,7 @@ let db;
   }
 })();
 
-/* ---------- GET /api/dogs ---------- */
+
 app.get('/api/dogs', async (req, res) => {
   try {
     const [rows] = await db.execute(`
