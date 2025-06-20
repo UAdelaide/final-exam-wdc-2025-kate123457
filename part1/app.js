@@ -22,14 +22,14 @@ let db;
     const conn = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: ''                   // change if root has a password
+      password: ''
     });
 
-    /* 2. create database if it does not exist */
+
     await conn.query('CREATE DATABASE IF NOT EXISTS DogWalkService');
     await conn.end();
 
-    /* 3. connect to DogWalkService */
+
     db = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
@@ -38,18 +38,18 @@ let db;
       multipleStatements: true
     });
 
-    /* 4. execute DDL script */
+
     const ddl = fs.readFileSync(path.join(__dirname, 'dogwalks.sql'), 'utf8');
     await db.query(ddl);
 
-    /* 5. seed sample data (simple: always run) */
+
     const dml = fs.readFileSync(path.join(__dirname, 'insert_data.sql'), 'utf8');
     await db.query(dml);
 
     console.log('✅ Database ready');
   } catch (err) {
     console.error(
-      '❌ Failed to initialize database. Is MySQL running? (service mysql start)',
+      ' Failed to initialize database. Is MySQL running? (service mysql start)',
       err
     );
   }
