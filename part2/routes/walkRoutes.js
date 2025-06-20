@@ -59,7 +59,7 @@ router.post('/:id/apply', async (req, res) => {
   }
 });
 
-// GET /api/walks/open — 只返回 status = 'open' 的遛狗请求
+// GET /api/walks/open
 router.get('/open', async (req, res) => {
   try {
     const [rows] = await db.execute(`
