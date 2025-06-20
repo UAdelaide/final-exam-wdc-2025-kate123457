@@ -27,28 +27,28 @@
       <p id="err" class="text-danger mt-2"></p>
     </form>
   </div>
-  <!-- All Registered Dogs -->
-<h3 class="mt-5">All Registered Dogs</h3>
-<table class="table table-bordered table-striped mt-2">
-  <thead class="table-light">
-    <tr>
-      <th>Dog ID</th>
-      <th>Name</th>
-      <th>Size</th>
-      <th>Owner ID</th>
-      <th>Photo</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="dog in dogs" :key="dog.dog_id">
-      <td>{{ dog.dog_id }}</td>
-      <td>{{ dog.name }}</td>
-      <td>{{ dog.size }}</td>
-      <td>{{ dog.owner_id }}</td>
-      <td><img :src="dog.image" style="height:60px" /></td>
-    </tr>
-  </tbody>
-</table>
+      <!-- All Registered Dogs -->
+    <h3 class="mt-5">All Registered Dogs</h3>
+    <table class="table table-bordered table-striped mt-2">
+      <thead class="table-light">
+        <tr>
+          <th>Dog ID</th>
+          <th>Name</th>
+          <th>Size</th>
+          <th>Owner ID</th>
+          <th>Photo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="dog in dogs" :key="dog.dog_id">
+          <td>{{ dog.dog_id }}</td>
+          <td>{{ dog.name }}</td>
+          <td>{{ dog.size }}</td>
+          <td>{{ dog.owner_id }}</td>
+          <td><img :src="dog.image" style="height:60px" /></td>
+        </tr>
+      </tbody>
+    </table>
 
   <script>
     const { createApp } = Vue;
