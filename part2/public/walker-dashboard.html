@@ -51,7 +51,7 @@
 
     // logout
     window.logout = async function () {
-      await fetch('/api/logout', { method: 'POST' }); // 销毁 session
+      await fetch('/api/logout', { method: 'POST' }); // get rid of session
       location.href = '/'; // return（index.html）
     };
 
