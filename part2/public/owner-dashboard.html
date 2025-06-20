@@ -71,6 +71,10 @@
     if (!meRes.ok) { location.href = '/'; throw new Error(); }
 
     const { createApp, ref, onMounted } = Vue;
+    async function logout() {
+    await fetch('/api/logout', { method: 'POST' }); // 调用服务器 logout 接口
+    location.href = '/'; // 返回到登录页
+  }
 
     createApp({
       setup() {
