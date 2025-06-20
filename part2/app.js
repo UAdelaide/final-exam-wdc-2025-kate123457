@@ -23,6 +23,7 @@ const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const { guard } = require('./routes/authHelper');
 
+
 app.use('/api/walks', walkRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api',       authRoutes);        // /login /logout /me
