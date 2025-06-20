@@ -84,7 +84,7 @@
 
         async loadDogs() {
           try {
-            const res = await fetch('/api/dogs');
+            const res = await fetch('/api/users/all-dogs');
             const list = await res.json();
             for (const dog of list) {
               const imgRes = await fetch('https://dog.ceo/api/breeds/image/random');
