@@ -25,7 +25,7 @@ const userRoutes = require('./routes/userRoutes');
 
 app.use('/api',       authRoutes);
 app.use('/api/walks',  guard(), walkRoutes);
-app.use('/api',       authRoutes);        // /login /logout /me
+app.use('/api/users',  guard(), userRoutes);
 
 /* 受保护的静态页面 */
 app.get('/owner-dashboard.html',  guard('owner'),
