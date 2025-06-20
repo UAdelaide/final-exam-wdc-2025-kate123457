@@ -55,5 +55,29 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// GET /api/users/dogs
+// Return the list of dogs owned by the currently logged-in owner
+router.get('/dogs', async (req, res) => {
+  // Make sure the user is logged in and has the role of 'owner'
+  if (!req.session.user || req.session.user.role !== 'owner') {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const ownerId = req.session.user.id;
+
+  try {
+    // Query the database for all dogs belonging to this owner
+    const [rows] = await db.query(`
+      SELECT dog_id, name, size FROM Dogs
+      WHERE owner_id = ?
+    `, [ownerId]);
+
+    // Send the result as JSON back to the frontend
+    res.json(rows); // e.g., [{ dog_id: 1, name: "Buddy", size: "medium" }, ...]
+  } catch (err) {
+    console.error(err); // Log the error for debugging
+    res.status(500).json({ error: 'Failed to fetch dogs' });
+  }
+});
 
 module.exports = router;
