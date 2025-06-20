@@ -67,11 +67,24 @@
 
   <script type="module">
     /* ---------- check ---------- */
-    const meRes = await fetch('/api/me');
-    if (!meRes.ok) { location.href = '/'; throw new Error(); }
+    (async () => {
+  // ---------- Session Check ----------
+  const meRes = await fetch('/api/me');
+  if (!meRes.ok) {
+    location.href = '/';
+    throw new Error();
+  }
+  const currentUser = await meRes.json();
+
+  // ✅ 把 logout 暴露到全局作用域，供按钮点击调用
+  window.logout = async function () {
+    await fetch('/api/logout', { method: 'POST' }); // 调用后端 logout 接口，销毁 session
+    location.href = '/'; // 跳转回登录页
+  };
+
 
     const { createApp, ref, onMounted } = Vue;
-    
+
 
     createApp({
       setup() {
