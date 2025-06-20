@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname,'public')));
 const authRoutes = require('./routes/authRoutes');
 const { guard } = require('./routes/authHelper');
 const walkRoutes = require('./routes/walkRoutes');
-const { guard } = require('./routes/authHelper');
+const userRoutes = require('./routes/userRoutes');
 
 app.use('/api/walks', walkRoutes);
 app.use('/api/users', userRoutes);
