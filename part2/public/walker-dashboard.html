@@ -40,7 +40,7 @@
   </div>
 
   <script type="module">
-    /* ----------  ---------- */
+    /* ---------- check ---------- */
     const meRes = await fetch('/api/me');
     if (!meRes.ok) { location.href = '/'; throw new Error(); }
     const currentUser = await meRes.json();   // { id, role, name }
