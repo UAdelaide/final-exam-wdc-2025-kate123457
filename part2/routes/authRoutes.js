@@ -24,6 +24,9 @@ router.get('/me',(req,res)=>{
 // POST /api/logout
 router.post('/logout',(req,res)=> req.session.destroy(()=>res.json({ok:true})) );
 
+router.post('/logout', (req, res) => {
+  req.session.destroy(() => res.json({ ok: true }));
+});
 
 
 module.exports = router;
