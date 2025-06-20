@@ -76,7 +76,7 @@
     }
     const currentUser = await meRes.json();
 
-    // ✅ Expose logout to global scope for HTML onclick use
+    //  Expose logout to global scope for HTML onclick use
     window.logout = async function () {
       await fetch('/api/logout', { method: 'POST' }); // Call backend to destroy session
       location.href = '/'; // Redirect to login page
@@ -134,7 +134,7 @@
         return { form, walks, message, error, submitWalkRequest };
       }
     }).mount('#app');
-  })(); // 🔴 不要漏掉这个括号和调用！！
+  })(); //
 </script>
 
 
