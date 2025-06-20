@@ -59,7 +59,27 @@ router.post('/:id/apply', async (req, res) => {
   }
 });
 
-
-
+// GET /api/walks/open — 只返回 status = 'open' 的遛狗请求
+router.get('/open', async (req, res) => {
+  try {
+    const [rows] = await db.execute(`
+      SELECT w.request_id,
+             d.name          AS dog_name,
+             d.size,
+             w.requested_time,
+             w.duration_minutes,
+             w.location,
+             u.username      AS owner_username
+      FROM WalkRequests w
+      JOIN Dogs   d ON w.dog_id   = d.dog_id
+      JOIN Users  u ON d.owner_id = u.user_id
+      WHERE w.status = 'open';
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch open walk requests' });
+  }
+});
 
 module.exports = router;
