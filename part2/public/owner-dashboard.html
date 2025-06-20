@@ -111,6 +111,15 @@
             error.value = 'Failed to load walk requests';
           }
         };
+         const loadDogs = async () => {   // ✅ 添加加载狗狗函数
+          try {
+            const r = await fetch('/api/users/dogs');
+            if (!r.ok) throw new Error();
+            dogs.value = await r.json();
+          } catch {
+            error.value = 'Failed to load dogs';
+          }
+        };
 
         const submitWalkRequest = async () => {
           try {
