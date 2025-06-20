@@ -4,7 +4,7 @@ const pool = mysql
   .createPool({
     host: 'localhost',
     user: 'root',
-    password: '12345',            // 你的 root 密码
+    password: '12345',// 你的 root 密码
     database: 'DogWalkService',
     multipleStatements: true, // 允许一次执行多语句
     waitForConnections: true,
