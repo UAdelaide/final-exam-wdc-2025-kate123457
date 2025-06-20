@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const db     = require('../models/db');        // 你已有的 MySQL 连接模块
+const db     = require('../models/db');        // 
 
 // POST /api/login
 router.post('/login', async (req,res)=>{
