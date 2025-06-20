@@ -145,7 +145,10 @@
           }
         };
 
-        onMounted(loadWalks);
+         onMounted(() => {
+          loadWalks();
+          loadDogs();
+        });
         return { form, walks, message, error, submitWalkRequest };
       }
     }).mount('#app');
