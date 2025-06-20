@@ -22,6 +22,8 @@ const walkRoutes = require('./routes/walkRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const { guard } = require('./routes/authHelper');
+const res = await fetch('/api/users/all-dogs');
+
 
 
 app.use('/api/walks', walkRoutes);
