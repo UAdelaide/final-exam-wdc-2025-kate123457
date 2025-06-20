@@ -46,10 +46,10 @@
     const currentUser = await meRes.json();   // { id, role, name }
 
     const { createApp, ref, onMounted } = Vue;
-    async function logout() {
-    await fetch('/api/logout', { method: 'POST' }); //
-    location.href = '/'; //
-  }
+
+
+
+
     createApp({
       setup() {
         const walks   = ref([]);
