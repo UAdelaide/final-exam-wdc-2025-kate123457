@@ -49,10 +49,10 @@
     }
     const currentUser = await meRes.json();  // { id, role, name }
 
-    // ✅ 登出函数：挂在全局，供按钮 onclick 使用
+    // logout
     window.logout = async function () {
       await fetch('/api/logout', { method: 'POST' }); // 销毁 session
-      location.href = '/'; // 返回首页（index.html）
+      location.href = '/'; // return（index.html）
     };
 
     const { createApp, ref, onMounted } = Vue;
