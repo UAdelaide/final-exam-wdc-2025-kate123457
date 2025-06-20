@@ -66,67 +66,77 @@
   </div>
 
   <script type="module">
-    /* ---------- check ---------- */
-    (async () => {
-  // ---------- Session Check ----------
-  const meRes = await fetch('/api/me');
-  if (!meRes.ok) {
-    location.href = '/';
-    throw new Error();
-  }
-  const currentUser = await meRes.json();
+  /* ---------- check ---------- */
+  (async () => {
+    // ---------- Session Check ----------
+    const meRes = await fetch('/api/me');
+    if (!meRes.ok) {
+      location.href = '/';
+      throw new Error();
+    }
+    const currentUser = await meRes.json();
 
-  // ✅ 把 logout 暴露到全局作用域，供按钮点击调用
-  window.logout = async function () {
-    await fetch('/api/logout', { method: 'POST' }); // 调用后端 logout 接口，销毁 session
-    location.href = '/'; // 跳转回登录页
-  };
-
+    // ✅ Expose logout to global scope for HTML onclick use
+    window.logout = async function () {
+      await fetch('/api/logout', { method: 'POST' }); // Call backend to destroy session
+      location.href = '/'; // Redirect to login page
+    };
 
     const { createApp, ref, onMounted } = Vue;
 
-
     createApp({
       setup() {
-        const form    = ref({ dog_id:'', requested_time:'', duration_minutes:'', location:'' });
-        const walks   = ref([]);
+        const form = ref({
+          dog_id: '',
+          requested_time: '',
+          duration_minutes: '',
+          location: ''
+        });
+        const walks = ref([]);
         const message = ref('');
-        const error   = ref('');
+        const error = ref('');
 
         const loadWalks = async () => {
           try {
             const r = await fetch('/api/walks');
             if (!r.ok) throw new Error();
             walks.value = await r.json();
-          } catch { error.value = 'Failed to load walk requests'; }
+          } catch {
+            error.value = 'Failed to load walk requests';
+          }
         };
 
         const submitWalkRequest = async () => {
           try {
             const r = await fetch('/api/walks', {
-              method:'POST',
-              headers:{'Content-Type':'application/json'},
-              body:JSON.stringify(form.value)
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(form.value)
             });
             const out = await r.json();
             if (!r.ok) throw new Error(out.error || 'Submit failed');
             message.value = out.message || 'Walk created';
             error.value = '';
-            form.value = { dog_id:'', requested_time:'', duration_minutes:'', location:'' };
+            form.value = {
+              dog_id: '',
+              requested_time: '',
+              duration_minutes: '',
+              location: ''
+            };
             loadWalks();
-          } catch (err) { error.value = err.message; message.value=''; }
+          } catch (err) {
+            error.value = err.message;
+            message.value = '';
+          }
         };
 
         onMounted(loadWalks);
         return { form, walks, message, error, submitWalkRequest };
       }
     }).mount('#app');
+  })(); // 🔴 不要漏掉这个括号和调用！！
+</script>
 
-    async function logout() {
-      await fetch('/api/logout', { method:'POST' });
-      location.href = '/';
-    }
-  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
