@@ -2,7 +2,7 @@
   "name": "part1",
   "version": "1.0.0",
   "description": "",
-  "main": "db.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
