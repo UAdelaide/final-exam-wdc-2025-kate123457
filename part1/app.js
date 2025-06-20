@@ -1,4 +1,4 @@
-/* part1/app.js  — run with: npm start */
+
 
 const express      = require('express');
 const path         = require('path');
@@ -13,12 +13,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-/* ---------- DB bootstrap: create DB, tables, seed data ---------- */
-let db;                              // shared connection
+
+let db;
 
 (async () => {
   try {
-    /* 1. connect to MySQL server (no database yet) */
+
     const conn = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
