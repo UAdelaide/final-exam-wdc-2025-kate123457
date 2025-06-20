@@ -1,4 +1,4 @@
-/* part1/app.js  —— 运行：npm start */
+/* part1/app.js  — run with: npm start */
 
 const express      = require('express');
 const path         = require('path');
@@ -13,23 +13,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-/* ---------- ① 建库、建表并插入示例数据 ---------- */
-let db;   // 让其他路由能复用
+/* ---------- DB bootstrap: create DB, tables, seed data ---------- */
+let db;                              // shared connection
 
 (async () => {
   try {
-    /* 1. 先连到 MySQL（不带 database）*/
+    /* 1. connect to MySQL server (no database yet) */
     const conn = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: ''               // ← 如果有密码请改
+      password: ''                   // change if root has a password
     });
 
-    /* 2. 建库（幂等）*/
+    /* 2. create database if it does not exist */
     await conn.query('CREATE DATABASE IF NOT EXISTS DogWalkService');
     await conn.end();
 
-    /* 3. 再连到 DogWalkService */
+    /* 3. connect to DogWalkService */
     db = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
@@ -38,28 +38,30 @@ let db;   // 让其他路由能复用
       multipleStatements: true
     });
 
-    /* 4. 执行建表脚本 dogwalks.sql */
+    /* 4. execute DDL script */
     const ddl = fs.readFileSync(path.join(__dirname, 'dogwalks.sql'), 'utf8');
     await db.query(ddl);
 
-    /* 5. 执行示例数据脚本 insert_data.sql（可先检测是否已有数据） */
+    /* 5. seed sample data (simple: always run) */
     const dml = fs.readFileSync(path.join(__dirname, 'insert_data.sql'), 'utf8');
     await db.query(dml);
 
     console.log('✅ Database ready');
   } catch (err) {
     console.error(
-      '❌ 数据库初始化失败，请确认 MySQL 已运行（service mysql start）\n',
+      '❌ Failed to initialize database. Is MySQL running? (service mysql start)',
       err
     );
   }
 })();
 
-/* ---------- ② /api/dogs ---------- */
+/* ---------- GET /api/dogs ---------- */
 app.get('/api/dogs', async (req, res) => {
   try {
     const [rows] = await db.execute(`
-      SELECT d.name AS dog_name, d.size, u.username AS owner_username
+      SELECT d.name AS dog_name,
+             d.size,
+             u.username AS owner_username
       FROM Dogs d
       JOIN Users u ON d.owner_id = u.user_id;
     `);
@@ -70,7 +72,7 @@ app.get('/api/dogs', async (req, res) => {
   }
 });
 
-/* ---------- ③ /api/walkrequests/open ---------- */
+/* ---------- GET /api/walkrequests/open ---------- */
 app.get('/api/walkrequests/open', async (req, res) => {
   try {
     const [rows] = await db.execute(`
@@ -81,28 +83,28 @@ app.get('/api/walkrequests/open', async (req, res) => {
              w.location,
              u.username AS owner_username
       FROM WalkRequests w
-      JOIN Dogs  d ON w.dog_id  = d.dog_id
+      JOIN Dogs  d ON w.dog_id   = d.dog_id
       JOIN Users u ON d.owner_id = u.user_id
       WHERE w.status = 'open';
     `);
     res.json(rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to fetch open requests' });
+    res.status(500).json({ error: 'Failed to fetch open walk requests' });
   }
 });
 
-/* ---------- ④ /api/walkers/summary ---------- */
+/* ---------- GET /api/walkers/summary ---------- */
+/* uses WalkRatings only: every rating == one completed walk */
 app.get('/api/walkers/summary', async (req, res) => {
   try {
     const [rows] = await db.execute(`
-      SELECT u.username AS walker_username,
-             COUNT(r.rating_id)              AS total_ratings,
-             ROUND(AVG(r.rating), 2)         AS average_rating,
-             COUNT(CASE WHEN w.status='completed' THEN 1 END) AS completed_walks
+      SELECT u.username                       AS walker_username,
+             COUNT(r.rating_id)               AS total_ratings,
+             ROUND(AVG(r.rating), 2)          AS average_rating,
+             COUNT(r.rating_id)               AS completed_walks
       FROM Users u
-      LEFT JOIN WalkRatings  r ON u.user_id = r.walker_id
-      LEFT JOIN WalkRequests w ON u.user_id = w.accepted_walker_id
+      LEFT JOIN WalkRatings r ON u.user_id = r.walker_id
       WHERE u.role = 'walker'
       GROUP BY u.user_id;
     `);
@@ -113,10 +115,10 @@ app.get('/api/walkers/summary', async (req, res) => {
   }
 });
 
-/* ---------- 静态文件（可无视） ---------- */
+/* ---------- static files (optional) ---------- */
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* ---------- 启动服务器 ---------- */
+/* ---------- start server ---------- */
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`🚀 API listening on port ${PORT}`));
 
