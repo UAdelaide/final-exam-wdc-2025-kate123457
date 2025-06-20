@@ -55,63 +55,54 @@
   <script>
     const { createApp } = Vue;
 
-    <script>
-  const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          message: 'Welcome to the Dog Walking Service!',
+          dogs: []
+        };
+      },
+      methods: {
+        async login(e) {
+          e.preventDefault();
+          const body = Object.fromEntries(new FormData(e.target).entries());
+          try {
+            const r = await fetch('/api/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error();
+            const { role } = await r.json();
+            location.href = role === 'owner'
+              ? '/owner-dashboard.html'
+              : '/walker-dashboard.html';
+          } catch {
+            document.getElementById('err').textContent = 'Login failed – check credentials';
+          }
+        },
 
-  createApp({
-    data() {
-      return {
-        message: 'Welcome to the Dog Walking Service!',
-        dogs: []
-      };
-    },
-    methods: {
-      async login(e) {
-        e.preventDefault();
-        const body = Object.fromEntries(new FormData(e.target).entries());
-        try {
-          const r = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-          });
-          if (!r.ok) throw new Error();
-          const { role } = await r.json();
-          location.href = role === 'owner'
-            ? '/owner-dashboard.html'
-            : '/walker-dashboard.html';
-        } catch {
-          document.getElementById('err').textContent = 'Login failed – check credentials';
+        async loadDogs() {
+          try {
+            const res = await fetch('/api/dogs');
+            const list = await res.json();
+            for (const dog of list) {
+              const imgRes = await fetch('https://dog.ceo/api/breeds/image/random');
+              const img = await imgRes.json();
+              dog.image = img.message;
+            }
+            this.dogs = list;
+          } catch (err) {
+            console.error('Failed to load dogs', err);
+          }
         }
       },
-
-      async loadDogs() {
-        console.log("Fetching dogs...");
-        try {
-          const res = await fetch('/api/dogs');
-          const list = await res.json();
-          console.log("Fetched list:", list);
-          for (const dog of list) {
-            const imgRes = await fetch('https://dog.ceo/api/breeds/image/random');
-            const img = await imgRes.json();
-            dog.image = img.message;
-          }
-          this.dogs = list;
-        } catch (err) {
-          console.error('Failed to load dogs', err);
-        }
+      mounted() {
+        document.getElementById('loginForm').addEventListener('submit', this.login);
+        this.loadDogs();
       }
-    },
-    mounted() {
-      // Attach login listener
-      document.getElementById('loginForm').addEventListener('submit', this.login);
-
-      // Load all dogs and images
-      this.loadDogs();
-    }
-  }).mount('#app');
-</script>
-
+    }).mount('#app');
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
