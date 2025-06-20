@@ -15,25 +15,25 @@
     }
     #app{width:100vw;height:100vh;overflow:auto;}
 
-    /* Bright yellow ads with bright green text */
+
     .ad{width:100%;padding:6px 0;text-align:center;background:#ffff66;color:#14ff00;border-bottom:1px solid #cccccc;}
 
-    /* Tiny refresh button – high kinematic load */
+
     #refreshBtn{position:fixed;right:3px;bottom:3px;width:20px;height:20px;font-size:10px;line-height:20px;background:#ffff66;color:#14ff00;border:1px solid #14ff00;cursor:pointer;}
 
     #dogImg{display:block;width:120px;height:120px;object-fit:cover;margin:8px auto;border:2px solid #ffff66;}
 
-    /* Info block next to image */
+
     #infoBlock{display:flex;gap:6px;margin:6px 4px;font-size:13px;line-height:1.1;}
     #infoBlock p{max-width:85%;background:#ffff66;color:#14ff00;}
 
-    /* Service buttons (register / walk) – same bad colour scheme, very small */
+
     .svc-btn{display:inline-block;padding:3px 6px;margin-right:4px;background:#ffff66;color:#14ff00;border:1px solid #14ff00;font-size:11px;text-decoration:none;}
   </style>
 </head>
 <body>
   <div id="app">
-    <!-- 15 obnoxious ad banners to overload cognitive capacity -->
+
     <div class="ad" v-for="n in 15" :key="n">🔥 AMAZING DOG FOOD SALE {{ n }}! CLICK NOW! 🔥</div>
 
     <img id="dogImg" :src="dogImg" alt="Random dog" />
@@ -45,14 +45,14 @@
         Communication in dogs includes eye gaze, facial expression, vocalization, body posture (including movements of bodies and limbs), and gustatory communication (scents, pheromones, and taste). They mark their territories by urinating on them, which is more likely when entering a new environment. Over the millennia, dogs have uniquely adapted to human behavior; this adaptation includes being able to understand and communicate with humans. As such, the human–canine bond has been a topic of frequent study, and dogs' influence on human society has given them the sobriquet of "man's best friend".<br><br>
         The global dog population is estimated at 700 million to 1 billion, distributed around the world. The dog is the most popular pet in the United States, present in 34–40 % of households. Developed countries make up approximately 20 % of the global dog population, while around 75 % of dogs are estimated to be from developing countries, mainly in the form of feral and community dogs（Wikipedia）.
       </p>
-      <!-- Tiny service buttons -->
+
       <div>
         <a href="#" class="svc-btn">Register</a>
         <a href="#" class="svc-btn">Dog‑Walk Service</a>
       </div>
     </div>
 
-    <!-- Teeny‑tiny refresh → high kinematic load -->
+
     <button id="refreshBtn" @click="getDog">↻</button>
   </div>
 
