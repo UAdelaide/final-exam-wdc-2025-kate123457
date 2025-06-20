@@ -47,12 +47,9 @@
 
     const { createApp, ref, onMounted } = Vue;
     async function logout() {
-    await fetch('/api/logout', { method: 'POST' }); // 调用服务器 logout 接口
-    location.href = '/'; // 返回到登录页
+    await fetch('/api/logout', { method: 'POST' }); //
+    location.href = '/'; //
   }
-
-
-
     createApp({
       setup() {
         const walks   = ref([]);
