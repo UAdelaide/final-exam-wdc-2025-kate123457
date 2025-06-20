@@ -18,14 +18,14 @@ app.use(
 app.use(express.static(path.join(__dirname,'public')));
 
 /* ---------- 路由 ---------- */
-const authRoutes = require('./routes/authRoutes');
-const { guard } = require('./routes/authHelper');
 const walkRoutes = require('./routes/walkRoutes');
 const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
+const { guard } = require('./routes/authHelper');
 
-app.use('/api',       authRoutes);
-app.use('/api/walks',  guard(), walkRoutes);
-app.use('/api/users',  guard(), userRoutes);
+app.use('/api/walks', walkRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api',       authRoutes);        // /login /logout /me
 
 /* 受保护的静态页面 */
 app.get('/owner-dashboard.html',  guard('owner'),
