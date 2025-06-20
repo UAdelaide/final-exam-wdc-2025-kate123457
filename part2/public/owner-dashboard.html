@@ -65,7 +65,7 @@
     <p v-else>No walk requests yet.</p>
   </div>
 
-  <script>
+  <script type="module">
     /* ---------- 会话检查 ---------- */
     const meRes = await fetch('/api/me');
     if (!meRes.ok) { location.href = '/'; throw new Error(); }
