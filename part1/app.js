@@ -72,7 +72,7 @@ app.get('/api/dogs', async (req, res) => {
   }
 });
 
-/* ---------- GET /api/walkrequests/open ---------- */
+
 app.get('/api/walkrequests/open', async (req, res) => {
   try {
     const [rows] = await db.execute(`
@@ -94,8 +94,8 @@ app.get('/api/walkrequests/open', async (req, res) => {
   }
 });
 
-/* ---------- GET /api/walkers/summary ---------- */
-/* uses WalkRatings only: every rating == one completed walk */
+
+
 app.get('/api/walkers/summary', async (req, res) => {
   try {
     const [rows] = await db.execute(`
@@ -115,10 +115,10 @@ app.get('/api/walkers/summary', async (req, res) => {
   }
 });
 
-/* ---------- static files (optional) ---------- */
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* ---------- start server ---------- */
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`🚀 API listening on port ${PORT}`));
 
