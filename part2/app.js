@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname,'public')));
 /* ---------- 路由 ---------- */
 const authRoutes = require('./routes/authRoutes');
 const { guard } = require('./routes/authHelper');
-const authRoutes = require('./routes/authRoutes');
+const walkRoutes = require('./routes/walkRoutes');
 const { guard } = require('./routes/authHelper');
 
 app.use('/api/walks', walkRoutes);
