@@ -83,20 +83,22 @@
         },
 
         async loadDogs() {
-          try {
-            const res = await fetch('/api/dogs');
-            const list = await res.json();
-            for (const dog of list) {
-              const imgRes = await fetch('https://dog.ceo/api/breeds/image/random');
-              const img = await imgRes.json();
-              dog.image = img.message;
-            }
-            this.dogs = list;
-          } catch (err) {
-            console.error('Failed to load dogs', err);
-          }
-        }
-      },
+  console.log("Fetching dogs...");
+  try {
+    const res = await fetch('/api/dogs');
+    const list = await res.json();
+    console.log("Fetched list:", list);  // ✅ 看看有无数据
+    for (const dog of list) {
+      const imgRes = await fetch('https://dog.ceo/api/breeds/image/random');
+      const img = await imgRes.json();
+      dog.image = img.message;
+    }
+    this.dogs = list;
+  } catch (err) {
+    console.error('Failed to load dogs', err);
+  }
+}
+
       mounted() {
         document.getElementById('loginForm').addEventListener('submit', this.login);
         this.loadDogs();
