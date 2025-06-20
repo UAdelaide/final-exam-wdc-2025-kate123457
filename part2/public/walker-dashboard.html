@@ -54,6 +54,11 @@
       await fetch('/api/logout', { method: 'POST' }); // get rid of session
       location.href = '/'; // return（index.html）
     };
+    
+    async function getCurrentUser() {
+    const r = await fetch('/api/users/me');
+    if (!r.ok) throw new Error('Not logged in');
+    return await r.json();
 
     const { createApp, ref, onMounted } = Vue;
 
