@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const db     = require('../models/db');        // 
+const db     = require('../models/db');        //
 
 // POST /api/login
 router.post('/login', async (req,res)=>{
@@ -23,5 +23,7 @@ router.get('/me',(req,res)=>{
 
 // POST /api/logout
 router.post('/logout',(req,res)=> req.session.destroy(()=>res.json({ok:true})) );
+
+
 
 module.exports = router;
